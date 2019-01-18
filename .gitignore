@@ -1,0 +1,5 @@
+flow
+devices.txt
+*.log
+*.db
+password.txt
