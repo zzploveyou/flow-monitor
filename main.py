@@ -15,6 +15,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 # global variables
 PASSWORD = open("password.txt").read().strip()
@@ -161,11 +162,16 @@ def main():
     password.click()
     password.send_keys(PASSWORD)
     driver.find_element_by_id("loginSub").click()
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, 'routeMgtMbtn')))
+    try:
+        WebDriverWait(driver, 60).until(
+            EC.presence_of_element_located((By.ID, 'routeMgtMbtn')))
+    except TimeoutException:
+        MG.error("Timeout, Retry ...")
+        driver.quit()
+        main()
     driver.find_element_by_id("routeMgtMbtn").click()
     MG.done("login success and start flow-monitor.")
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.CLASS_NAME, 'eptCon')))
     get_device_flow(driver)
 
