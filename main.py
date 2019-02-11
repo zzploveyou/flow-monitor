@@ -100,10 +100,10 @@ def save_record(date, time, name, up, down):
 
 def device_flow(driver):
     global MG, START_TIME
-    # 出错或每隔15min则关闭driver，并重新挂起driver
+    # 出错或每隔6h则关闭driver，并重新挂起driver
     try:
         driver.find_element_by_id("eptMngList")
-        assert (datetime.today() - START_TIME).seconds < 15 * 60
+        assert (datetime.today() - START_TIME).seconds < 6 * 60 * 60
     except AssertionError:
         MG.info("Restart driver regularly.")
         driver.quit()
