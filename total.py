@@ -12,8 +12,13 @@ def main():
         data = np.array([[int(i[:-1]), int(j[:-1])] for i, j in df.values])
         up, down = data.sum(axis=0)
         res.add((base, up, down))
-    for base, up, down in sorted(res, key=lambda t: t[1]+t[2], reverse=True):
-        print(f"{up/1000:2.2f}G {down/1000:2.2f}G {base}")
+    
+    print("+--------+----------+-----------------+")
+    print("| {:^6s} | {:^6s} |{:^17s}|".format("Upload", "Download", "Name"))
+    print("+--------+----------+-----------------+")
+    for base, up, down in sorted(res, key=lambda t: t[1]+t[2], reverse=True)[:15]:
+        print(f"|{up/1000:^6.2f}G |  {down/1000:^6.2f}G | {base:<16s}|")
+    print("+--------+----------+-----------------+")
 
 
 if __name__ == '__main__':
